@@ -1,11 +1,16 @@
 package rayyan.warehouse.workflowautomationengine.controller.auth;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import rayyan.warehouse.workflowautomationengine.dto.LoginRequestDTO;
+import rayyan.warehouse.workflowautomationengine.dto.LoginResponseDTO;
 import rayyan.warehouse.workflowautomationengine.dto.RegistrationRequestDTO;
 import rayyan.warehouse.workflowautomationengine.service.AuthService;
 
@@ -24,5 +29,16 @@ public class AuthController {
         return ResponseEntity.
                 status(HttpStatus.CREATED).
                 body("user registered successfully");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponseDTO> login(
+            @Valid @RequestBody LoginRequestDTO request){
+
+        LoginResponseDTO response = authService.login(request);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
     }
 }
