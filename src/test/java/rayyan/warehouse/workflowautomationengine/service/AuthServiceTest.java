@@ -113,4 +113,26 @@ public class AuthServiceTest {
         );
     }
 
+    // TEST 4: Repository should not save more than once
+    @Test
+    void testShouldSaveUserExactlyOnce() {
+
+        // Arrange
+        RegistrationRequestDTO request = new RegistrationRequestDTO();
+        request.setEmail("test3@gmail.com");
+        request.setPassword("password123");
+
+        when(userRepository.existsByEmail("test3@gmail.com"))
+                .thenReturn(false);
+
+        when(passwordEncoder.encode("password123"))
+                .thenReturn("encodedPassword");
+
+        // Act
+        authService.register(request);
+
+        // Assert
+        verify(userRepository, times(1))
+                .save(any(Users.class));
+    }
 }
