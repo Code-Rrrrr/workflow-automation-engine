@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import rayyan.warehouse.workflowautomationengine.dto.LoginRequestDTO;
 import rayyan.warehouse.workflowautomationengine.dto.LoginResponseDTO;
 import rayyan.warehouse.workflowautomationengine.dto.RegistrationRequestDTO;
+import rayyan.warehouse.workflowautomationengine.exception.ConflictException;
+import rayyan.warehouse.workflowautomationengine.exception.UnauthorizedException;
 import rayyan.warehouse.workflowautomationengine.model.Users;
 import rayyan.warehouse.workflowautomationengine.repository.UserRepository;
 import rayyan.warehouse.workflowautomationengine.security.JWTService;
@@ -22,7 +24,7 @@ public class AuthService {
 
     public void register(RegistrationRequestDTO requests){
         if(userRepository.existsByEmail(requests.getEmail())){
-            throw new RuntimeException("Email is already registered");
+            throw new ConflictException("Email is already registered");
         }
 
         Users user = new Users();
@@ -37,14 +39,14 @@ public class AuthService {
 
         Users user = userRepository.getByEmail(request.email())
                 .orElseThrow(() ->
-                        new RuntimeException("Invalid email or password")
+                        new UnauthorizedException("Email is not registered")
                 );
 
         if (!passwordEncoder.matches(
                 request.password(),
                 user.getPasswordHash())) {
 
-            throw new RuntimeException("Invalid email or password");
+            throw new UnauthorizedException("Password doesn't match with what you gave earlier");
         }
 
         String token = jwtService.generateToken(user.getId());
