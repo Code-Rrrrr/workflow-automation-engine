@@ -12,8 +12,8 @@ import rayyan.warehouse.workflowautomationengine.model.Users;
 import rayyan.warehouse.workflowautomationengine.repository.UserRepository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthServiceTest {
@@ -61,5 +61,27 @@ public class AuthServiceTest {
         assertEquals("hashedtest123", savedUser.getPasswordHash());
 
         verify(passwordEncoder).encode("test123");
+    }
+
+    // TEST 2: Test
+    @Test
+    void testDuplicateEmail(){
+
+        // arrange
+        RegistrationRequestDTO request = new RegistrationRequestDTO();
+        request.setName("TestBot1");
+        request.setEmail("test123");
+        request.setPassword("test123");
+
+        when(userRepository.existsByEmail("test123"))
+                .thenReturn(true);
+
+        // act
+        assertThrows(RuntimeException.class,
+                () -> authService.register(request));
+
+        // assert : verify user was never saved
+        verify(userRepository, never()).save(any(Users.class));
+        verify(passwordEncoder, never()).encode("test123");
     }
 }
