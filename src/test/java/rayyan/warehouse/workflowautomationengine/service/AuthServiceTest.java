@@ -84,4 +84,33 @@ public class AuthServiceTest {
         verify(userRepository, never()).save(any(Users.class));
         verify(passwordEncoder, never()).encode("test123");
     }
+
+    // TEST 3: Password must be encoded
+    @Test
+    void testShouldEncodePasswordBeforeSaving() {
+
+        // Arrange
+        RegistrationRequestDTO request = new RegistrationRequestDTO();
+        request.setEmail("test2@gmail.com");
+        request.setPassword("myPassword");
+
+        when(userRepository.existsByEmail("test2@gmail.com"))
+                .thenReturn(false);
+
+        when(passwordEncoder.encode("myPassword"))
+                .thenReturn("encodedPassword");
+
+        // Act
+        authService.register(request);
+
+        // Assert
+        verify(passwordEncoder).encode("myPassword");
+
+        verify(userRepository).save(
+                argThat(user ->
+                        user.getPasswordHash().equals("encodedPassword")
+                )
+        );
+    }
+
 }
