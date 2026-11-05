@@ -46,9 +46,8 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             // Extract user UUID from JWT subject
             UUID userId = jwtService.extractUserId(token);
 
-            // Validate token and authenticate user
-            if (jwtService.isTokenValid(token, userId)
-                    && SecurityContextHolder.getContext()
+            // Check if the security context holder already has the context of the user
+            if (SecurityContextHolder.getContext()
                     .getAuthentication() == null) {
 
                 // Create authenticated principal if the user is not
