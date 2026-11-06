@@ -6,13 +6,14 @@ import org.springframework.stereotype.Repository;
 import rayyan.warehouse.workflowautomationengine.model.Workflows;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface WorkflowRepository extends JpaRepository<Workflows, UUID> {
 
     // fetch a particular workflow for a particular user
-    Workflows findByIdAndUser_Id(UUID id, UUID userId);
+    Optional<Workflows> findByIdAndUser_Id(UUID id, UUID userId);
 
     // fetch all the workflows for a user.
     List<Workflows> findAllByUser_Id(UUID id);
