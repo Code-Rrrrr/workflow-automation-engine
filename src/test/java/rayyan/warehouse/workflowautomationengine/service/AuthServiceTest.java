@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import rayyan.warehouse.workflowautomationengine.dto.RegistrationRequestDTO;
+import rayyan.warehouse.workflowautomationengine.dto.auth.RegistrationRequestDTO;
 import rayyan.warehouse.workflowautomationengine.model.Users;
 import rayyan.warehouse.workflowautomationengine.repository.UserRepository;
 

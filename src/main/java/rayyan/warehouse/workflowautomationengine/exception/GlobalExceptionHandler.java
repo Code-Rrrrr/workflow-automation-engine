@@ -1,12 +1,11 @@
 package rayyan.warehouse.workflowautomationengine.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import rayyan.warehouse.workflowautomationengine.dto.ErrorResponseDTO;
+import rayyan.warehouse.workflowautomationengine.dto.auth.ErrorResponseDTO;
 
 import java.time.LocalDateTime;
 import java.util.Map;

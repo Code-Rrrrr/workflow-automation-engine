@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import rayyan.warehouse.workflowautomationengine.dto.LoginRequestDTO;
-import rayyan.warehouse.workflowautomationengine.dto.LoginResponseDTO;
-import rayyan.warehouse.workflowautomationengine.dto.RegistrationRequestDTO;
+import rayyan.warehouse.workflowautomationengine.dto.auth.LoginRequestDTO;
+import rayyan.warehouse.workflowautomationengine.dto.auth.LoginResponseDTO;
+import rayyan.warehouse.workflowautomationengine.dto.auth.RegistrationRequestDTO;
 import rayyan.warehouse.workflowautomationengine.service.AuthService;
 
 @Controller
