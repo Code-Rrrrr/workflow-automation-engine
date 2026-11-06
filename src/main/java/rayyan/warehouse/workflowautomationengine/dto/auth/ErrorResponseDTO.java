@@ -1,4 +1,4 @@
-package rayyan.warehouse.workflowautomationengine.dto;
+package rayyan.warehouse.workflowautomationengine.dto.auth;
 
 import java.time.LocalDateTime;
 import java.util.Map;
