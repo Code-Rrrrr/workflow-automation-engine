@@ -1,4 +1,4 @@
-package rayyan.warehouse.workflowautomationengine.controller.auth;
+package rayyan.warehouse.workflowautomationengine.controller;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
