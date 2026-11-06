@@ -35,7 +35,7 @@ class SecurityConfig{
 
                 .authorizeHttpRequests((authorize) ->
                         authorize
-                                .requestMatchers("api/auth/**").permitAll()
+                                .requestMatchers("/api/auth/**").permitAll()
                                 .anyRequest().authenticated())
 
                 .addFilterBefore(
