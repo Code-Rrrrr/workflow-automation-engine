@@ -1,6 +1,8 @@
 package rayyan.warehouse.workflowautomationengine.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -29,6 +31,52 @@ public class WorkflowExecutions {
 
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
+
+    @Column(name = "step_name", length = 100)
+    private String stepName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "step_type", length = 20)
+    private StepType stepType;
+
+    @Column(name = "step_order")
+    private Integer stepOrder;
+
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Column(name = "configuration", columnDefinition = "jsonb")
+    private String configuration;
+
+    public String getStepName() {
+        return stepName;
+    }
+
+    public void setStepName(String stepName) {
+        this.stepName = stepName;
+    }
+
+    public StepType getStepType() {
+        return stepType;
+    }
+
+    public void setStepType(StepType stepType) {
+        this.stepType = stepType;
+    }
+
+    public Integer getStepOrder() {
+        return stepOrder;
+    }
+
+    public void setStepOrder(Integer stepOrder) {
+        this.stepOrder = stepOrder;
+    }
+
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
 
     public WorkflowExecutions() {}
 
