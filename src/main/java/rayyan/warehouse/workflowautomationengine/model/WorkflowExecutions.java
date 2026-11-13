@@ -21,7 +21,7 @@ public class WorkflowExecutions {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
-    private ExecutionStatus status;
+    private WorkflowExecutionStatus status;
 
     @Column(name = "started_at")
     private OffsetDateTime startedAt;
@@ -85,7 +85,7 @@ public class WorkflowExecutions {
         createdAt = OffsetDateTime.now();
 
         if (status == null) {
-            status = ExecutionStatus.PENDING;
+            status = WorkflowExecutionStatus.PENDING;
         }
     }
 
@@ -103,11 +103,11 @@ public class WorkflowExecutions {
         this.workflow = workflow;
     }
 
-    public ExecutionStatus getStatus() {
+    public WorkflowExecutionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(ExecutionStatus status) {
+    public void setStatus(WorkflowExecutionStatus status) {
         this.status = status;
     }
 
