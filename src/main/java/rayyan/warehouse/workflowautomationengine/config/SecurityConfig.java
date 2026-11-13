@@ -28,6 +28,8 @@ class SecurityConfig{
    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
 
         http
+                //disable the csrf security: not needed as sessions are stateless
+                //but will be required if the JWTs are stored in cookies( ;) avoid it)
                 .csrf((csrf) -> csrf.disable())
 
                 .sessionManagement((session) ->
