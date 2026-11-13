@@ -1,6 +1,6 @@
 package rayyan.warehouse.workflowautomationengine.repository;
 
-import rayyan.warehouse.workflowautomationengine.model.ExecutionStatus;
+import rayyan.warehouse.workflowautomationengine.model.WorkflowExecutionStatus;
 import rayyan.warehouse.workflowautomationengine.model.WorkflowExecutions;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,10 +21,10 @@ public interface WorkflowExecutionsRepository
             UUID workflowId
     );
 
-    List<WorkflowExecutions> findAllByStatus(ExecutionStatus status);
+    List<WorkflowExecutions> findAllByStatus(WorkflowExecutionStatus status);
 
     boolean existsByWorkflow_IdAndStatus(
             UUID workflowId,
-            ExecutionStatus status
+            WorkflowExecutionStatus status
     );
 }
