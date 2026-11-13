@@ -1,6 +1,6 @@
 package rayyan.warehouse.workflowautomationengine.service;
 
-import rayyan.warehouse.workflowautomationengine.model.ExecutionStatus;
+import rayyan.warehouse.workflowautomationengine.model.WorkflowExecutionStatus;
 import rayyan.warehouse.workflowautomationengine.model.WorkflowExecutionStepStatus;
 import rayyan.warehouse.workflowautomationengine.model.WorkflowExecutions;
 import rayyan.warehouse.workflowautomationengine.model.WorkflowExecutionSteps;
@@ -62,7 +62,7 @@ public class WorkflowExecutionService {
         // Create the parent execution.
         WorkflowExecutions execution = new WorkflowExecutions();
         execution.setWorkflow(workflow);
-        execution.setStatus(ExecutionStatus.PENDING);
+        execution.setStatus(WorkflowExecutionStatus.PENDING);
 
         WorkflowExecutions savedExecution =
                 executionsRepository.save(execution);
