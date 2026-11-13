@@ -57,6 +57,8 @@ public class JWTService {
     }
 
     // Validate JWT against expected user ID
+    // thereby making sure that one user cannot access the resources
+    // of another user.
     public boolean isTokenValid(String token, UUID userId) {
 
         UUID tokenUserId = extractUserId(token);
