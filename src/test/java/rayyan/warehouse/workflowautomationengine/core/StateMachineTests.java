@@ -93,4 +93,76 @@ class StateMachineTest {
                         .map(to -> Arguments.of(from, to)))
                 .filter(pair -> !valid.contains(pair));
     }
+
+
+    // --- Workflow Step Transitions (5 Valid, 20 Invalid, Nulls) ---
+
+    private record StepPair(WorkflowExecutionStepStatus from, WorkflowExecutionStepStatus to) {}
+
+    @ParameterizedTest
+    @MethodSource("validStepTransitions")
+    void checkTransition_shouldReturnTrue_forValidStepTransitions(
+            WorkflowExecutionStepStatus from,
+            WorkflowExecutionStepStatus to
+    ) {
+        // Act
+        boolean result = stateMachine.checkTransition(from, to);
+
+        // Assert
+        assertTrue(result, () -> "Expected step transition " + from + " -> " + to + " to be valid");
+    }
+
+    @ParameterizedTest
+    @MethodSource("invalidStepTransitions")
+    void checkTransition_shouldReturnFalse_forInvalidStepTransitions(
+            WorkflowExecutionStepStatus from,
+            WorkflowExecutionStepStatus to
+    ) {
+        // Act
+        boolean result = stateMachine.checkTransition(from, to);
+
+        // Assert
+        assertFalse(result, () -> "Expected step transition " + from + " -> " + to + " to be invalid");
+    }
+
+    @Test
+    void checkTransition_shouldReturnFalse_whenStepStatusIsNull() {
+        // Arrange
+        WorkflowExecutionStepStatus validStatus = WorkflowExecutionStepStatus.PENDING;
+
+        // Act
+        boolean fromNull = stateMachine.checkTransition(null, validStatus);
+        boolean toNull = stateMachine.checkTransition(validStatus, null);
+        boolean bothNull = stateMachine.checkTransition((WorkflowExecutionStepStatus) null, null);
+
+        // Assert
+        assertFalse(fromNull);
+        assertFalse(toNull);
+        assertFalse(bothNull);
+    }
+
+    static Stream<Arguments> validStepTransitions() {
+        return Stream.of(
+                Arguments.of(WorkflowExecutionStepStatus.PENDING, WorkflowExecutionStepStatus.RUNNING),
+                Arguments.of(WorkflowExecutionStepStatus.PENDING, WorkflowExecutionStepStatus.SKIPPED),
+                Arguments.of(WorkflowExecutionStepStatus.RUNNING, WorkflowExecutionStepStatus.COMPLETED),
+                Arguments.of(WorkflowExecutionStepStatus.RUNNING, WorkflowExecutionStepStatus.FAILED),
+                Arguments.of(WorkflowExecutionStepStatus.FAILED, WorkflowExecutionStepStatus.PENDING)
+        );
+    }
+
+    static Stream<Arguments> invalidStepTransitions() {
+        Set<StepPair> validPairs = Set.of(
+                new StepPair(WorkflowExecutionStepStatus.PENDING, WorkflowExecutionStepStatus.RUNNING),
+                new StepPair(WorkflowExecutionStepStatus.PENDING, WorkflowExecutionStepStatus.SKIPPED),
+                new StepPair(WorkflowExecutionStepStatus.RUNNING, WorkflowExecutionStepStatus.COMPLETED),
+                new StepPair(WorkflowExecutionStepStatus.RUNNING, WorkflowExecutionStepStatus.FAILED),
+                new StepPair(WorkflowExecutionStepStatus.FAILED, WorkflowExecutionStepStatus.PENDING)
+        );
+
+        return Stream.of(WorkflowExecutionStepStatus.values())
+                .flatMap(from -> Stream.of(WorkflowExecutionStepStatus.values())
+                        .filter(to -> !validPairs.contains(new StepPair(from, to)))
+                        .map(to -> Arguments.of(from, to)));
+    }
 }
