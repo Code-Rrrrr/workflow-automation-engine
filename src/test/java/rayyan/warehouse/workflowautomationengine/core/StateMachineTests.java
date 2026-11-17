@@ -17,6 +17,9 @@ class StateMachineTest {
 
     private StateMachine stateMachine;
 
+    private record ExecutionPair(WorkflowExecutionStatus from, WorkflowExecutionStatus to) {}
+    private record StepPair(WorkflowExecutionStepStatus from, WorkflowExecutionStepStatus to) {}
+
     @BeforeEach
     void setUp() {
         // Arrange (shared system under test)
@@ -81,23 +84,20 @@ class StateMachineTest {
     }
 
     static Stream<Arguments> invalidExecutionTransitions() {
-        Set<Arguments> valid = Set.of(
-                Arguments.of(WorkflowExecutionStatus.PENDING, WorkflowExecutionStatus.RUNNING),
-                Arguments.of(WorkflowExecutionStatus.RUNNING, WorkflowExecutionStatus.COMPLETED),
-                Arguments.of(WorkflowExecutionStatus.RUNNING, WorkflowExecutionStatus.FAILED),
-                Arguments.of(WorkflowExecutionStatus.FAILED, WorkflowExecutionStatus.PENDING)
+        Set<ExecutionPair> validPairs = Set.of(
+                new ExecutionPair(WorkflowExecutionStatus.PENDING, WorkflowExecutionStatus.RUNNING),
+                new ExecutionPair(WorkflowExecutionStatus.RUNNING, WorkflowExecutionStatus.COMPLETED),
+                new ExecutionPair(WorkflowExecutionStatus.RUNNING, WorkflowExecutionStatus.FAILED),
+                new ExecutionPair(WorkflowExecutionStatus.FAILED, WorkflowExecutionStatus.PENDING)
         );
 
         return Stream.of(WorkflowExecutionStatus.values())
                 .flatMap(from -> Stream.of(WorkflowExecutionStatus.values())
-                        .map(to -> Arguments.of(from, to)))
-                .filter(pair -> !valid.contains(pair));
+                        .filter(to -> !validPairs.contains(new ExecutionPair(from, to)))
+                        .map(to -> Arguments.of(from, to)));
     }
 
-
     // --- Workflow Step Transitions (5 Valid, 20 Invalid, Nulls) ---
-
-    private record StepPair(WorkflowExecutionStepStatus from, WorkflowExecutionStepStatus to) {}
 
     @ParameterizedTest
     @MethodSource("validStepTransitions")
