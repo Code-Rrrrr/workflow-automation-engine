@@ -98,7 +98,6 @@ class StateMachineTest {
     }
 
     // --- Workflow Step Transitions (5 Valid, 20 Invalid, Nulls) ---
-
     @ParameterizedTest
     @MethodSource("validStepTransitions")
     void checkTransition_shouldReturnTrue_forValidStepTransitions(
