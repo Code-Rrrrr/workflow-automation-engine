@@ -4,8 +4,8 @@ import rayyan.warehouse.workflowautomationengine.core.executor.executorexception
 
 public class DelayConfig {
 
-    static final int MIN_DELAY_MILLIS = 1;
-    static final int MAX_DELAY_MILLIS = 120_000;
+    public static final int MIN_DELAY_MILLIS = 1;
+    public static final int MAX_DELAY_MILLIS = 120_000;
 
     // Integer (not int) so a missing value stays null instead of silently becoming 0.
     private Integer milliseconds;
